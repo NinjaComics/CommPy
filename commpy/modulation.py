@@ -21,7 +21,7 @@ from itertools import product
 from commpy.utilities import bitarray2dec, dec2bitarray
 from numpy.fft import fft, ifft
 
-__all__ = ['PSKModem', 'QAMModem', 'mimo_ml']
+__all__ = ['PAMModem', 'PSKModem', 'QAMModem', 'mimo_ml']
 
 class Modem:
 
@@ -93,6 +93,24 @@ class Modem:
 
         return demod_bits
 
+class PAMModem(Modem):
+    """ Creates a PAM Modem object """
+
+    def _constellation_symbol(self, i):
+        return (2*i)-1-self.m
+
+    def __init__(self, m):
+        """ Creates a PAM Modem object 
+
+        Params
+        ------
+        m : int
+            size of the PAM constellation
+        """
+        self.m = m
+        self.num_bits_symbol = int(log2(self.m))
+        self.symbol_mapping = arange(self.m)
+        self.constellation = array(map(self._constellation_symbol, self.symbol_mapping))
 
 class PSKModem(Modem):
     """ Creates a Phase Shift Keying (PSK) Modem object. """
