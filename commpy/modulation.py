@@ -10,13 +10,15 @@ Modulation Demodulation (:mod:`commpy.modulation`)
 .. autosummary::
    :toctree: generated/
 
+   PAMModem             -- Pulse Amplitude Modulation (PAM) Modem.
    PSKModem             -- Phase Shift Keying (PSK) Modem.
    QAMModem             -- Quadrature Amplitude Modulation (QAM) Modem.
    mimo_ml              -- MIMO Maximum Likelihood (ML) Detection.
 
 """
 from numpy import arange, array, zeros, pi, cos, sin, sqrt, log2, argmin, \
-                  hstack, repeat, tile, dot, sum, shape, concatenate, exp, log
+                  hstack, repeat, tile, dot, sum, shape, concatenate, exp, log, \
+                  linspace
 from itertools import product
 from commpy.utilities import bitarray2dec, dec2bitarray
 from numpy.fft import fft, ifft
@@ -109,7 +111,7 @@ class PAMModem(Modem):
         """
         self.m = m
         self.num_bits_symbol = int(log2(self.m))
-        self.symbol_mapping = arange(self.m)
+        self.symbol_mapping = linspace(1, self.m, self.m)
         self.constellation = array(map(self._constellation_symbol, self.symbol_mapping))
 
 class PSKModem(Modem):

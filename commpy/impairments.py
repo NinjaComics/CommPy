@@ -3,9 +3,9 @@
 # License: BSD 3-Clause
 
 """
-============================================
+=======================================
 Impairments (:mod:`commpy.impairments`)
-============================================
+=======================================
 
 .. autosummary::
    :toctree: generated/
@@ -14,11 +14,11 @@ Impairments (:mod:`commpy.impairments`)
 
 """
 
-from numpy import exp, pi, arange
+from numpy import exp, pi, arange, random
 
 __all__ = ['add_frequency_offset']
 
-def add_frequency_offset(waveform, Fs, delta_f):
+def frequency_offset(waveform, Fs, delta_f):
     """
     Add frequency offset impairment to input signal.
 
@@ -40,4 +40,14 @@ def add_frequency_offset(waveform, Fs, delta_f):
     """
 
     output_waveform = waveform*exp(1j*2*pi*(delta_f/Fs)*arange(len(waveform)))
+    return output_waveform
+
+def phase_offset(waveform):
+    """
+    Introduce Phase offset 
+    """
+
+    phi= random.uniform(0, 2*pi)
+    output_waveform = waveform*exp(1j*phi)*arange(len(waveform))
+    
     return output_waveform
